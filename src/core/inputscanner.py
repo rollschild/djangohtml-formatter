@@ -1,5 +1,5 @@
-"""Parse input string"""
-import re
+"""Main input scanner utility to read input string"""
+#  import re
 
 
 class InputScanner:

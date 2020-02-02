@@ -1,0 +1,4 @@
+.mypy_cache/*
+src/.mypy_cache/*
+src/core/.mypy_cache/*
+
