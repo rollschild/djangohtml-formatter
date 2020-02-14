@@ -6,7 +6,7 @@ from typing import List, Optional, TypeVar
 
 from ..core.token import Token
 
-TokenStreamType = TypeVar("TokenStreamType", bound=TokenStream)
+TokenStreamType = TypeVar("TokenStreamType", bound="TokenStream")
 
 
 class TokenStream:

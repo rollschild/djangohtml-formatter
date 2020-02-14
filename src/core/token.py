@@ -1,7 +1,10 @@
 """Definition of Token"""
+from typing import TypeVar, Optional, Generic
+
+TokenType = TypeVar("TokenType", bound="Token")
 
 
-class Token:
+class Token(Generic[TokenType]):
     """Main Token class"""
 
     # TODO: rename the type parameter
@@ -17,9 +20,9 @@ class Token:
         self.newlines = newlines
         self.leading_whitespace = leading_whitespace
         self.leading_comments = None
-        self.parent = None
+        self.parent_token: Optional[TokenType] = None
         self.next = None
-        self.previous = None
-        self.opened = None
-        self.closed = None
+        self.previous_token: Optional[TokenType] = None
+        self.opened_peer: Optional[TokenType] = None
+        self.closed_peer: Optional[TokenType] = None
         self.directives = None
