@@ -85,14 +85,14 @@ class InputScanner:
 
         return pattern_match
 
-    def read(self, starting_pattern: RegexPattern[str]) -> str:
+    def read(self, starting_pattern: Optional[RegexPattern[str]]) -> str:
         """
         Read input string and return a result string matching the
         starting_pattern
         """
         res: str = ""
         pattern_match: Optional[RegexMatch[str]] = None
-        if bool(starting_pattern):
+        if starting_pattern and bool(starting_pattern):
             pattern_match = self.match(starting_pattern)
             if pattern_match is not None and bool(pattern_match):
                 res = pattern_match.group(0)

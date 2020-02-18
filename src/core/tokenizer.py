@@ -4,11 +4,13 @@ Tokenizer is the utility to read/parse an input string
 """
 
 import dataclasses
+import re
 from typing import List, Optional, Pattern as RegexPattern
 
 from ..core.inputscanner import InputScanner
 from ..core.token import Token
 from ..core.tokenstream import TokenStream
+from ..core.whitespacepattern import WhitespacePattern
 
 
 @dataclasses.dataclass
@@ -26,6 +28,7 @@ TOKEN_TYPES = TokenTypes()
 class TokenizerPatterns:
     def __init__(self, inputscanner: InputScanner):
         self.whitespace = WhitespacePattern(inputscanner)
+        # possibly other patterns to follow
 
 
 class Tokenizer:
@@ -96,11 +99,22 @@ class Tokenizer:
     def _get_next_token(
         self, previous_token: Token, open_token: Token
     ) -> Token:
-        # Skip spaces
+        # Skip spaces and newlines
         self._read_white_space()
+        res: Optional[str] = self._input_scanner.read(re.compile(r".+"))
+        if res:
+            return self._create_token(TOKEN_TYPES.RAW, res)
 
-        val: Token = Token(TokenTypes.START, "")
-        return val
+        return self._create_token(TOKEN_TYPES.EOF, "")
 
-    def _read_white_space(self) -> RegexPattern:
+    def _read_white_space(self) -> str:
         return self._patterns.whitespace.read()
+
+    def _create_token(self, token_type: str, text: str) -> Token:
+        token: Token = Token(
+            token_type,
+            text,
+            self._patterns.whitespace.newline_count,
+            self._patterns.whitespace.whitespace_before_token,
+        )
+        return token
