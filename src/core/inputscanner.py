@@ -58,12 +58,19 @@ class InputScanner:
         return val
 
     def generate_regex(
-        self, pattern: Union[str, RegexPattern[str]], match_from: bool = False
+        self,
+        pattern: Union[str, Optional[RegexPattern[str]]],
+        match_from: bool = False,
     ) -> Optional[RegexPattern]:
         result: Optional[RegexPattern] = None
         if isinstance(pattern, self.__six.string_types) and pattern != "":
             result = re.compile(pattern)
-        elif pattern is not None and type(pattern) == RegexPattern[str]:
+        elif (
+            pattern is not None
+            and bool(pattern)
+            and type(pattern) == RegexPattern[str]
+        ):
+            #  elif pattern is not None and isinstance(pattern, RegexPattern[str]):
             # TODO: fix the mypy warning
             result = re.compile(pattern.pattern)
 

@@ -1,1 +1,18 @@
-- `token` is actually one line of HTML code?
+# Design
+- Available Django Template HTML tokens
+  - `{%`
+  - `%}`
+  - `extends`
+  - `block`
+  - `endblock`
+  - `for`
+  - `endfor`
+  - `{{`
+  - `}}`
+  - `|`
+  - `if`
+  - `elif`
+  - `else`
+  - `endif`
+  - `{#`
+  - `#}`

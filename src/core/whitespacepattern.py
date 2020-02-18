@@ -1,24 +1,33 @@
 import re
+from typing import Optional, TypeVar, Pattern as RegexPattern
 from ..core.pattern import Pattern
 from ..core.inputscanner import InputScanner
 
 __all__ = ["WhitespacePattern"]
 
+WhitespacePatternType = TypeVar(
+    "WhitespacePatternType", bound="WhitespacePattern"
+)
+
 
 class WhitespacePattern(Pattern):
     """Child class of Pattern"""
 
-    def __init__(self, input_scanner: InputScanner, parent=None) -> None:
+    def __init__(
+        self,
+        input_scanner: InputScanner,
+        parent: Optional[WhitespacePatternType] = None,
+    ) -> None:
         super(WhitespacePattern, self).__init__(input_scanner, parent)
+        self.whitespace_before_token = ""  # private???
+        self.newline_count = 0
+        self._newline_regexp: Optional[RegexPattern[str]] = None
         if parent is not None:
             self._newline_regexp = self._input_scanner.generate_regex(
                 parent._newline_regexp
             )
         else:
             self._set_whitespace_patterns("", "")
-
-        self.whitespace_before_token = ""  # private???
-        self.newline_count = 0
 
     def _set_whitespace_patterns(
         self, whitespace_chars: str, newline_chars: str

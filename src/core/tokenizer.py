@@ -17,9 +17,9 @@ from ..core.whitespacepattern import WhitespacePattern
 class TokenTypes:
     """Built-in token types"""
 
-    START: str = "START_TOKEN"
-    RAW: str = "RAW_TOKEN"
-    EOF: str = "EOC_TOKEN"
+    START: str = "TK_START"
+    RAW: str = "TK_RAW"
+    EOF: str = "TK_EOF"
 
 
 TOKEN_TYPES = TokenTypes()
@@ -89,7 +89,7 @@ class Tokenizer:
         return False
 
     def _get_next_token_with_comments(
-        self, previous: Token, open_token: Token
+        self, previous: Token, open_token: Optional[Token]
     ) -> Token:
         current_token = self._get_next_token(previous, open_token)
         current_token.parent_token = open_token
@@ -97,7 +97,7 @@ class Tokenizer:
         return current_token
 
     def _get_next_token(
-        self, previous_token: Token, open_token: Token
+        self, previous_token: Token, open_token: Optional[Token]
     ) -> Token:
         # Skip spaces and newlines
         self._read_white_space()
